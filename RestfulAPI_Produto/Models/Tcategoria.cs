@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RestfulAPI_Produto.Models
 {
-    public partial class Tcategoria
+    public partial class TCategoria
     {
-        public Tcategoria()
+        public TCategoria()
         {
-            Tproduto = new HashSet<Tproduto>();
+            TProduto = new HashSet<TProduto>();
         }
 
         public int Id { get; set; }
@@ -17,6 +17,6 @@ namespace RestfulAPI_Produto.Models
         [MaxLength(80, ErrorMessage = "O nome deve conter no máximo 80 caracteres.")]
         public string Nome { get; set; }
 
-        public ICollection<Tproduto> Tproduto { get; set; }
+        public ICollection<TProduto> TProduto { get; set; }
     }
 }

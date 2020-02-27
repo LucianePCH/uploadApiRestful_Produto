@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestfulAPI_Produto.Models;
 using RestfulAPI_Produto.Aplicacao;
@@ -28,74 +24,77 @@ namespace RestfulAPI_Produto.Controllers
 
         [HttpPost]
         [Route("Insert")]
-        public IActionResult Insert([FromBody]Tcategoria categoria)
+        public IActionResult Insert([FromBody]TCategoria categoria)
         {
+            String msg = "Inclusão de Categoria";
             try
             {
                 if (!ModelState.IsValid || categoria == null)
                 {
-                    return BadRequest("Cotroller: Dados da categoria inválidos.");
+                    msg = "Cotroller: Dados da categoria inválidos.";
+                    return BadRequest(msg);
                 }
                 else
                 {
-                    if (categoria.Id < 0)
+                    if (categoria.Id != 0)
                     {
-                        return BadRequest("Controller: Informar o novo código maior que zero, ou informar zero (0) para o sistema gerar o novo código.");
+                        return BadRequest("Controller: Informar zero (0) no ''Id'' para ser gerado o novo código pelo sistema.");
                     }
-
                     if (categoria.Nome.Trim().Equals(""))
                     {
-                        return BadRequest("Controller: Necessário informar o nome da categoria.");
+                        msg = "Controller: Necessário informar o nome da categoria.";
+                        return BadRequest(msg);                        
                     }
 
                     categoria.Nome = categoria.Nome.Trim();
                     var resposta = new CategoriaAplicacao(_contexto).Insert(categoria);
-                    return Ok(resposta);
+                    return Ok("Inclusao Categoria: " + resposta);
                 }
             }
             catch (Exception)
             {
-                return BadRequest("Cotroller: Não foi possível realizar a operação.");
+                return BadRequest("Controller - Não foi possível realizar a operação: [" + msg + "]");                
             }
         }
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update([FromBody]Tcategoria categoria)
+        public IActionResult Update([FromBody]TCategoria categoria)
         {
+            String msg = "Edicao de Categoria";
             try
             {
                 if (!ModelState.IsValid || categoria == null)
                 {
-                    return BadRequest("Cotroller: Dados da categoria inválidos.");
+                    return BadRequest("Edicao - Cotroller: Dados da categoria inválidos.");
                 }
                 else
                 {
                     if (categoria.Id <= 0)
                     {
-                        return BadRequest("Cotroller: Código da categoria inválido.");
+                        return BadRequest("Edicao - Cotroller: Código da categoria inválido.");
                     }
-
+                                        
                     if (categoria.Nome.Trim().Equals(""))
                     { 
-                        return BadRequest("Cotroller: Nome da categoria não informado.");
+                        return BadRequest("Edicao - Cotroller: Nome da categoria não informado.");
                     }
 
                     var xCategoria = new CategoriaAplicacao(_contexto).GetCategoriaByNome(categoria.Nome.Trim());
                     if (xCategoria != null)
                     {
-                        return BadRequest("Cotroller: Nome da categoria já existe.");
+                        return BadRequest("Edicao - Cotroller: Nome da categoria já cadastrado.");
                     }
 
                     categoria.Nome = categoria.Nome.Trim();
                     var resposta = new CategoriaAplicacao(_contexto).Update(categoria);
-                    return Ok(resposta);
+                    return Ok("Edicao Categoria: " + resposta);
                 }
             }
             catch (Exception)
             {
-                return BadRequest("Cotroller: Não foi possível realizar a operação.");
-            }
+                return BadRequest("Edicao - Cotroller: Não foi possível realizar a operação [" + msg + "]");
+            } 
         }
 
         [HttpDelete]
@@ -106,17 +105,17 @@ namespace RestfulAPI_Produto.Controllers
             {
                 if (id <= 0)
                 {
-                    return BadRequest("Cotroller: Código da categoria inválido.");
+                    return BadRequest("Delete - Cotroller: Código da categoria inválido.");
                 }
                 else
                 {
                     var resposta = new CategoriaAplicacao(_contexto).Delete(id);
-                    return Ok(resposta);
+                    return Ok("Delete - Categoria - " + resposta);
                 }
             }
             catch (Exception)
             {
-                return BadRequest("Cotroller: Não foi possível realizar a operação.");
+                return BadRequest("Delete - Cotroller: Não foi possível realizar a operação.");
             }
         }
 

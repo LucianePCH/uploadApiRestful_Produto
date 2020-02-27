@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using RestfulAPI_Produto.Models;
 
 namespace RestfulAPI_Produto.Aplicacao
@@ -15,7 +14,7 @@ namespace RestfulAPI_Produto.Aplicacao
             _contexto = contexto;
         }
 
-        public string Insert(Tproduto produto)
+        public string Insert(TProduto produto)
         {
             try
             {
@@ -30,7 +29,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     }
                     else
                     {
-                        return "Aplicação: Código do produto já existe.";
+                        return "Aplicação: Produto já cadastrado.";
                     }
                 }
                 else
@@ -44,7 +43,7 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public string Update(Tproduto produto)
+        public string Update(TProduto produto)
         {
             try
             {
@@ -75,14 +74,14 @@ namespace RestfulAPI_Produto.Aplicacao
                     
                     if (xCategoria == null)
                     {
-                        return "Aplicação: Cadastro da categoria não existe.";
+                        return "Aplicação: Categoria não cadastrada.";
                     }
                     
-                    var produto = _contexto.Tproduto.FirstOrDefault(x => x.Id == id);
+                    var produto = _contexto.TProduto.FirstOrDefault(x => x.Id == id);
 
                     if (produto == null)
                     {
-                        return "Aplicação: Cadastro do produto não existe.";
+                        return "Aplicação: Produto não cadastrado.";
                     }
 
                     produto.IdCategoria = idCategoria;
@@ -103,9 +102,9 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public Tcategoria GetCategoria(int id)
+        public TCategoria GetCategoria(int id)
         {
-            Tcategoria consultaCategoria = new Tcategoria();
+            TCategoria consultaCategoria = new TCategoria();
 
             try
             {
@@ -114,7 +113,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     return null;
                 }
 
-                var xCategoria = _contexto.Tcategoria.Where(x => x.Id == id).ToList();
+                var xCategoria = _contexto.TCategoria.Where(x => x.Id == id).ToList();
                 consultaCategoria = xCategoria.FirstOrDefault();
 
                 if (consultaCategoria != null)
@@ -146,13 +145,13 @@ namespace RestfulAPI_Produto.Aplicacao
                     var produto = GetProdutoById(id);
                     if (produto != null)
                     {
-                        _contexto.Tproduto.Remove(produto);
+                        _contexto.TProduto.Remove(produto);
                         _contexto.SaveChanges();
                         return "Aplicação: Produto " + produto.Id + " - " + produto.Nome +  " excluído com sucesso.";
                     }
                     else
                     {
-                        return "Aplicação: Cadastro do produto não existe.";
+                        return "Aplicação: Produto não cadastrado.";
                     }
                 }
             }
@@ -162,9 +161,9 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public Tproduto GetProdutoByNome(string nome)
+        public TProduto GetProdutoByNome(string nome)
         {
-            Tproduto primeiroProduto = new Tproduto();
+            TProduto primeiroProduto = new TProduto();
 
             try
             {
@@ -173,7 +172,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     return null;
                 }
 
-                var xProduto = _contexto.Tproduto.Where(x => x.Nome == nome.Trim()).ToList();
+                var xProduto = _contexto.TProduto.Where(x => x.Nome == nome.Trim()).ToList();
                 primeiroProduto = xProduto.FirstOrDefault();
 
                 if (primeiroProduto != null)
@@ -191,9 +190,9 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public Tproduto GetProdutoById(int id)
+        public TProduto GetProdutoById(int id)
         {
-            Tproduto consultaProduto = new Tproduto();
+            TProduto consultaProduto = new TProduto();
 
             try
             {
@@ -202,7 +201,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     return null;
                 }
 
-                var xProduto = _contexto.Tproduto.Where(x => x.Id == id).ToList();
+                var xProduto = _contexto.TProduto.Where(x => x.Id == id).ToList();
                 consultaProduto = xProduto.FirstOrDefault();
 
                 if (consultaProduto != null)
@@ -220,9 +219,9 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public List<Tproduto> GetProdutoByCategoria(int idCategoria)
+        public List<TProduto> GetProdutoByCategoria(int idCategoria)
         {
-            List<Tproduto> listaDeProdutos = new List<Tproduto>();
+            List<TProduto> listaDeProdutos = new List<TProduto>();
 
             try
             {
@@ -231,7 +230,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     return null;
                 }
                 
-                listaDeProdutos = _contexto.Tproduto.Where(x => x.IdCategoria == idCategoria).ToList();
+                listaDeProdutos = _contexto.TProduto.Where(x => x.IdCategoria == idCategoria).ToList();
 
                 if (listaDeProdutos != null)
                 {
@@ -248,12 +247,12 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
         
-        public List<Tproduto> GetProdutoAll()
+        public List<TProduto> GetProdutoAll()
         {
-            List<Tproduto> listaDeProdutos = new List<Tproduto>();
+            List<TProduto> listaDeProdutos = new List<TProduto>();
             try
             {                
-                listaDeProdutos = _contexto.Tproduto.Select(x => x).ToList();
+                listaDeProdutos = _contexto.TProduto.Select(x => x).ToList();
                 if (listaDeProdutos != null)
                 {
                     return listaDeProdutos;

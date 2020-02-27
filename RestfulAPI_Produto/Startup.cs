@@ -32,6 +32,9 @@ namespace RestfulAPI_Produto
                 options.UseMySql(Configuration.GetConnectionString("MyConnection"));
             });
 
+            //testar conexão com o banco de dados
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
         }

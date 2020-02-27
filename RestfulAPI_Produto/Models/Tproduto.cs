@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RestfulAPI_Produto.Models
 {
-    public partial class Tproduto
+    public partial class TProduto
     {
         public int Id { get; set; }
 
@@ -15,7 +15,7 @@ namespace RestfulAPI_Produto.Models
         [Required(ErrorMessage = "A código da categoria deve ser informado.")]        
         public int IdCategoria { get; set; }
 
-        public Tcategoria IdCategoriaNavigation { get; set; }
+        public TCategoria IdCategoriaNavigation { get; set; }
     }
        
 }

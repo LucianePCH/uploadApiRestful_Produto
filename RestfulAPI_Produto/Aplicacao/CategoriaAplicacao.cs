@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using RestfulAPI_Produto.Models;
 
 namespace RestfulAPI_Produto.Aplicacao
@@ -15,54 +14,66 @@ namespace RestfulAPI_Produto.Aplicacao
             _contexto = contexto;
         }
 
-        public string Insert(Tcategoria categoria)
+        public string Insert(TCategoria categoria)
         {
+            TCategoria TCategoriaInsert = new TCategoria();
+
+            String msg = "Aplicacao: Insert(categoria)";
+
             try
             {
-                if (categoria != null)
+                if (categoria == null)
                 {
-                    var xCategoria = GetCategoriaByNome(categoria.Nome.Trim());
-                    if (xCategoria == null)
-                    {
-                        _contexto.Add(categoria);
-                        _contexto.SaveChanges();
-                        return "Aplicação: Categoria cadastrada com sucesso!";
-                    }
-                    else
-                    {
-                        return "Aplicação: Nome da categoria já existe.";
-                    }
+                    msg = "Aplicacao: Categoria nula.";
+                    return msg;
+                }
 
-                }
-                else
+                var xCategoria = GetCategoriaByNome(categoria.Nome);
+                if (xCategoria != null)               
                 {
-                    return "Aplicação: Dados da categoria inválidos.";
+                    msg = "Aplicacao: Nome já cadastrado.";
+                    return msg;
                 }
+
+                msg = "Add(categoria)";
+                _contexto.Add(categoria);
+
+                msg = "SaveChanges()";
+                _contexto.SaveChanges();
+
+                return "Aplicacao: Categoria cadastrada com sucesso!";            
+               
             }
             catch (Exception)
-            {
-                return "Aplicação: Não foi possível realizar a operação.";
+            {               
+                return "Aplicacao - Não foi possível realizar a operação: [" + msg + "]";                
             }
         }
 
-        public string Update(Tcategoria categoria)
+        public string Update(TCategoria categoria)
         {
+            String msg = "Aplicacao: Update";
             try
             {
                 if (categoria != null)
-                {                    
+                {
+                    msg = "Update(categoria)";
                     _contexto.Update(categoria);
+
+                    msg = "SaveChanges()";
                     _contexto.SaveChanges();
-                    return "Aplicação: Categoria alterada com sucesso!";                 
+
+                    return "Aplicacao: Categoria alterada com sucesso!";                 
                 }
                 else
                 {
-                    return "Aplicação: Categoria não existe.";
+                    msg = "Aplicacao: Categoria não cadastrada.";
+                    return msg;
                 }
             }
             catch (Exception)
-            {
-                return "Aplicação: Não foi possível realizar a operação.";
+            {                
+                return "Aplicacao: Não foi possível realizar a operação: [" + msg + "]" ;
             }
         }
 
@@ -72,32 +83,32 @@ namespace RestfulAPI_Produto.Aplicacao
             {
                 if (id <= 0)
                 {
-                    return "Aplicação: Código da categoria inválido.";
+                    return "Aplicacao: Código da categoria inválido.";
                 }
                 else
                 {                    
                     var categoria = GetCategoriaById(id);
                     if (categoria != null)
                     {
-                        _contexto.Tcategoria.Remove(categoria);
+                        _contexto.TCategoria.Remove(categoria);
                         _contexto.SaveChanges();
-                        return "Aplicação: Categoria " + categoria.Id + " - " + categoria.Nome + " excluída com sucesso!";
+                        return "Aplicacao: Categoria [" + categoria.Id + " - " + categoria.Nome + "] excluída com sucesso!";
                     }
                     else
                     {
-                        return "Aplicação: Código da categoria não existe.";
+                        return "Aplicacao: Código da categoria não cadastrado.";
                     }
                 }
             }
             catch (Exception)
             {
-                return "Aplicação: Não foi possível realizar a operação, possui dependência.";
+                return "Aplicacao: Não foi possível realizar a operação, possui dependência.";
             }
         }
 
-        public Tcategoria GetCategoriaByNome(string nome)
+        public TCategoria GetCategoriaByNome(string nome)
         {
-            Tcategoria primeiraCategoria = new Tcategoria();
+            TCategoria primeiraCategoria = new TCategoria();
 
             try
             {
@@ -106,7 +117,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     return null;
                 }
 
-                var xCategoria = _contexto.Tcategoria.Where(x => x.Nome == nome).ToList();
+                var xCategoria = _contexto.TCategoria.Where(x => x.Nome == nome).ToList();
                 primeiraCategoria = xCategoria.FirstOrDefault();
 
                 if (primeiraCategoria != null)
@@ -124,20 +135,14 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public Tcategoria GetCategoriaById(int id)
+        public TCategoria GetCategoriaById(int id)
         {
-            Tcategoria consultaCategoria = new Tcategoria();
+            TCategoria consultaCategoria = new TCategoria();
 
             try
             {
-                if (id <= 0)
-                {
-                    return null;
-                }
-
-                var xCategoria = _contexto.Tcategoria.Where(x => x.Id == id).ToList();
+                var xCategoria = _contexto.TCategoria.Where(x => x.Id == id).ToList();
                 consultaCategoria = xCategoria.FirstOrDefault();
-
                 if (consultaCategoria != null)
                 {
                     return consultaCategoria;
@@ -153,13 +158,13 @@ namespace RestfulAPI_Produto.Aplicacao
             }
         }
 
-        public List<Tcategoria> GetCategoriaAll()
+        public List<TCategoria> GetCategoriaAll()
         {
-            List<Tcategoria> listaDeCategorias = new List<Tcategoria>();
+            List<TCategoria> listaDeCategorias = new List<TCategoria>();
 
             try
             {                
-                listaDeCategorias = _contexto.Tcategoria.Select(x => x).ToList();
+                listaDeCategorias = _contexto.TCategoria.Select(x => x).ToList();
                 if (listaDeCategorias != null)
                 {
                     return listaDeCategorias;

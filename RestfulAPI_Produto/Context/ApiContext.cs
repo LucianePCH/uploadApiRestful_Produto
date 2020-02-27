@@ -15,14 +15,14 @@ namespace RestfulAPI_Produto.Models
         {
         }
 
-        public virtual DbSet<Tcategoria> Tcategoria { get; set; }
-        public virtual DbSet<Tproduto> Tproduto { get; set; }
+        public virtual DbSet<TCategoria> TCategoria { get; set; }
+        public virtual DbSet<TProduto> TProduto { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Tcategoria>(entity =>
+            modelBuilder.Entity<TCategoria>(entity =>
             {
-                entity.ToTable("tcategoria");
+                entity.ToTable("TCategoria");
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
@@ -31,9 +31,9 @@ namespace RestfulAPI_Produto.Models
                     .HasColumnType("varchar(80)");
             });
 
-            modelBuilder.Entity<Tproduto>(entity =>
+            modelBuilder.Entity<TProduto>(entity =>
             {
-                entity.ToTable("tproduto");
+                entity.ToTable("TProduto");
 
                 entity.HasIndex(e => e.IdCategoria)
                     .HasName("idCategoria");
@@ -49,10 +49,10 @@ namespace RestfulAPI_Produto.Models
                     .HasColumnType("varchar(100)");
 
                 entity.HasOne(d => d.IdCategoriaNavigation)
-                    .WithMany(p => p.Tproduto)
+                    .WithMany(p => p.TProduto)
                     .HasForeignKey(d => d.IdCategoria)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("tproduto_ibfk_1");
+                    .HasConstraintName("TProduto_ibfk_1");
             });
         }
     }
