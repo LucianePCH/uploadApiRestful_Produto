@@ -147,7 +147,7 @@ namespace RestfulAPI_Produto.Aplicacao
                     {
                         _contexto.TProduto.Remove(produto);
                         _contexto.SaveChanges();
-                        return "Aplicação: Produto " + produto.Id + " - " + produto.Nome +  " excluído com sucesso.";
+                        return "Aplicação: Produto [" + produto.Id + " - " + produto.Nome +  "] excluído com sucesso.";
                     }
                     else
                     {

@@ -48,7 +48,7 @@ namespace RestfulAPI_Produto.Controllers
 
                     categoria.Nome = categoria.Nome.Trim();
                     var resposta = new CategoriaAplicacao(_contexto).Insert(categoria);
-                    return Ok("Inclusao Categoria: " + resposta);
+                    return Ok("Inclusao Categoria - " + resposta);
                 }
             }
             catch (Exception)
