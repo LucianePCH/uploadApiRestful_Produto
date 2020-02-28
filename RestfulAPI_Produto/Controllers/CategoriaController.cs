@@ -139,7 +139,7 @@ namespace RestfulAPI_Produto.Controllers
                     }
                     else
                     {
-                        return BadRequest("Cotroller: Categoria não existe.");
+                        return BadRequest("Cotroller: Categoria não cadastrada.");
                     }
                 }
             }
@@ -169,7 +169,7 @@ namespace RestfulAPI_Produto.Controllers
                     }
                     else
                     {
-                        return BadRequest("Cotroller: Categoria não existe.");
+                        return BadRequest("Cotroller: Categoria não cadastrada.");
                     }
                 }
             }

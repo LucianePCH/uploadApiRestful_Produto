@@ -172,7 +172,7 @@ namespace RestfulAPI_Produto.Controllers
                     }
                     else
                     {
-                        return BadRequest("Controller: Produto não existe.");
+                        return BadRequest("Controller: Produto não cadastrado.");
                     }
                 }
             }
@@ -202,7 +202,7 @@ namespace RestfulAPI_Produto.Controllers
                     }
                     else
                     {
-                        return BadRequest("Controller: Produto não existe.");
+                        return BadRequest("Controller: Produto não cadastrado.");
                     }
                 }
             }
